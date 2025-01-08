@@ -1,0 +1,55 @@
+Model层
+- BlockData（方块数据类）
+  + int BlockType          // 方块类型
+  + string ResourcePath    // 资源路径
+  + Vector3 Position      // 位置信息
+
+- LevelConfig（关卡配置类）
+  + int LevelNumber       // 关卡编号
+  + int BlockCount        // 方块数量
+  + int TimeLimit         // 时间限制
+  + bool IsAdWatched      // 是否已观看广告
+  + bool IsTimeExtended   // 是否已延长时间
+
+- GameStateData（游戏状态数据类）
+  + int CurrentLevel      // 当前关卡
+  + float RemainingTime   // 剩余时间
+  + List<BlockData> BackpackBlocks  // 背包中的方块
+  + int BackpackCapacity  // 背包容量
+
+View层
+- BlockView（方块显示类）
+  + void PlayMoveAnimation()    // 移动动画
+  + void PlayDestroyEffect()    // 销毁特效
+  + void PlayClickEffect()      // 点击特效
+
+- BackpackUI（背包界面类）
+  + void UpdateBackpackDisplay()  // 更新背包显示
+  + void ShowExpandAnimation()    // 显示扩展动画
+  + void UpdateCapacityDisplay()  // 更新容量显示
+
+- GameUI（游戏主界面类）
+  + void UpdateTimeDisplay()      // 更新时间显示
+  + void ShowLevelInfo()         // 显示关卡信息
+  + void ShowGameResult()        // 显示游戏结果
+
+Controller层
+- GameController（游戏主控制器）
+  + void StartLevel()           // 开始关卡
+  + void EndLevel()            // 结束关卡
+  + void HandleGameOver()       // 处理游戏结束
+
+- BlockManager（方块管理器）
+  + void GenerateBlocks()       // 生成方块
+  + void HandleBlockClick()     // 处理方块点击
+  + bool CheckMatch()          // 检查匹配
+
+- BackpackManager（背包管理器）
+  + void AddBlock()            // 添加方块
+  + void RemoveBlock()         // 移除方块
+  + void ExpandCapacity()      // 扩展容量
+
+- ObjectPoolManager（对象池管理器）
+  + void PrewarmPool()         // 预热对象池
+  + GameObject GetObject()      // 获取对象
+  + void ReturnObject()        // 返回对象
