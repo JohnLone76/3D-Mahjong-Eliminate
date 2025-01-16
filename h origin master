@@ -1,0 +1,11 @@
+[33mcommit e32fc7f5b20d479eb4c8e6256d785383b313b537[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: JohnLone76 <1214632738@qq.com>
+Date:   Thu Jan 16 09:39:48 2025 +0800
+
+    完善基础功能
+
+[33mcommit 41734e900bdfdca2deb08abfdd6034a284e0060a[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: JohnLone76 <1214632738@qq.com>
+Date:   Wed Jan 8 21:16:14 2025 +0800
+
+    Initial commit: Project setup with MVC architecture and core systems
