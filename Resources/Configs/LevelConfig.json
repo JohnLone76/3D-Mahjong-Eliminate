@@ -8,107 +8,107 @@
             "m_serializedPrefabPaths": [
                 {
                     "blockType": 1,
-                    "prefabPath": "Prefabs/Blocks/Block_1"
+                    "prefabPath": "Block_1"
                 },
                 {
                     "blockType": 2,
-                    "prefabPath": "Prefabs/Blocks/Block_2"
+                    "prefabPath": "Block_2"
                 },
                 {
                     "blockType": 3,
-                    "prefabPath": "Prefabs/Blocks/Block_3"
+                    "prefabPath": "Block_3"
                 },
                 {
                     "blockType": 4,
-                    "prefabPath": "Prefabs/Blocks/Block_4"
+                    "prefabPath": "Block_4"
                 },
                 {
                     "blockType": 5,
-                    "prefabPath": "Prefabs/Blocks/Block_5"
+                    "prefabPath": "Block_5"
                 },
                 {
                     "blockType": 6,
-                    "prefabPath": "Prefabs/Blocks/Block_6"
+                    "prefabPath": "Block_6"
                 },
                 {
                     "blockType": 7,
-                    "prefabPath": "Prefabs/Blocks/Block_7"
+                    "prefabPath": "Block_7"
                 },
                 {
                     "blockType": 8,
-                    "prefabPath": "Prefabs/Blocks/Block_8"
+                    "prefabPath": "Block_8"
                 },
                 {
                     "blockType": 9,
-                    "prefabPath": "Prefabs/Blocks/Block_9"
+                    "prefabPath": "Block_9"
                 },
                 {
                     "blockType": 11,
-                    "prefabPath": "Prefabs/Blocks/Block_11"
+                    "prefabPath": "Block_11"
                 },
                 {
                     "blockType": 22,
-                    "prefabPath": "Prefabs/Blocks/Block_22"
+                    "prefabPath": "Block_22"
                 },
                 {
                     "blockType": 33,
-                    "prefabPath": "Prefabs/Blocks/Block_33"
+                    "prefabPath": "Block_33"
                 },
                 {
                     "blockType": 44,
-                    "prefabPath": "Prefabs/Blocks/Block_44"
+                    "prefabPath": "Block_44"
                 },
                 {
                     "blockType": 55,
-                    "prefabPath": "Prefabs/Blocks/Block_55"
+                    "prefabPath": "Block_55"
                 },
                 {
                     "blockType": 66,
-                    "prefabPath": "Prefabs/Blocks/Block_66"
+                    "prefabPath": "Block_66"
                 },
                 {
                     "blockType": 77,
-                    "prefabPath": "Prefabs/Blocks/Block_77"
+                    "prefabPath": "Block_77"
                 },
                 {
                     "blockType": 88,
-                    "prefabPath": "Prefabs/Blocks/Block_88"
+                    "prefabPath": "Block_88"
                 },
                 {
                     "blockType": 99,
-                    "prefabPath": "Prefabs/Blocks/Block_99"
+                    "prefabPath": "Block_99"
                 },
                 {
                     "blockType": 12,
-                    "prefabPath": "Prefabs/Blocks/Block_12"
+                    "prefabPath": "Block_12"
                 },
                 {
                     "blockType": 23,
-                    "prefabPath": "Prefabs/Blocks/Block_23"
+                    "prefabPath": "Block_23"
                 },
                 {
                     "blockType": 34,
-                    "prefabPath": "Prefabs/Blocks/Block_34"
+                    "prefabPath": "Block_34"
                 },
                 {
                     "blockType": 45,
-                    "prefabPath": "Prefabs/Blocks/Block_45"
+                    "prefabPath": "Block_45"
                 },
                 {
                     "blockType": 56,
-                    "prefabPath": "Prefabs/Blocks/Block_56"
+                    "prefabPath": "Block_56"
                 },
                 {
                     "blockType": 67,
-                    "prefabPath": "Prefabs/Blocks/Block_67"
+                    "prefabPath": "Block_67"
                 },
                 {
                     "blockType": 78,
-                    "prefabPath": "Prefabs/Blocks/Block_78"
+                    "prefabPath": "Block_78"
                 },
                 {
                     "blockType": 89,
-                    "prefabPath": "Prefabs/Blocks/Block_89"
+                    "prefabPath": "Block_89"
                 }
             ]
         },
@@ -116,111 +116,111 @@
             "m_levelId": 2,
             "m_levelNumber": 2,
             "m_timeLimit": 600.0,
-            "m_blockCount": 30,
+            "m_blockCount": 20,
             "m_serializedPrefabPaths": [
                 {
                     "blockType": 1,
-                    "prefabPath": "Prefabs/Blocks/Block_1"
+                    "prefabPath": "Block_1"
                 },
                 {
                     "blockType": 2,
-                    "prefabPath": "Prefabs/Blocks/Block_2"
+                    "prefabPath": "Block_2"
                 },
                 {
                     "blockType": 3,
-                    "prefabPath": "Prefabs/Blocks/Block_3"
+                    "prefabPath": "Block_3"
                 },
                 {
                     "blockType": 4,
-                    "prefabPath": "Prefabs/Blocks/Block_4"
+                    "prefabPath": "Block_4"
                 },
                 {
                     "blockType": 5,
-                    "prefabPath": "Prefabs/Blocks/Block_5"
+                    "prefabPath": "Block_5"
                 },
                 {
                     "blockType": 6,
-                    "prefabPath": "Prefabs/Blocks/Block_6"
+                    "prefabPath": "Block_6"
                 },
                 {
                     "blockType": 7,
-                    "prefabPath": "Prefabs/Blocks/Block_7"
+                    "prefabPath": "Block_7"
                 },
                 {
                     "blockType": 8,
-                    "prefabPath": "Prefabs/Blocks/Block_8"
+                    "prefabPath": "Block_8"
                 },
                 {
                     "blockType": 9,
-                    "prefabPath": "Prefabs/Blocks/Block_9"
+                    "prefabPath": "Block_9"
                 },
                 {
                     "blockType": 11,
-                    "prefabPath": "Prefabs/Blocks/Block_11"
+                    "prefabPath": "Block_11"
                 },
                 {
                     "blockType": 22,
-                    "prefabPath": "Prefabs/Blocks/Block_22"
+                    "prefabPath": "Block_22"
                 },
                 {
                     "blockType": 33,
-                    "prefabPath": "Prefabs/Blocks/Block_33"
+                    "prefabPath": "Block_33"
                 },
                 {
                     "blockType": 44,
-                    "prefabPath": "Prefabs/Blocks/Block_44"
+                    "prefabPath": "Block_44"
                 },
                 {
                     "blockType": 55,
-                    "prefabPath": "Prefabs/Blocks/Block_55"
+                    "prefabPath": "Block_55"
                 },
                 {
                     "blockType": 66,
-                    "prefabPath": "Prefabs/Blocks/Block_66"
+                    "prefabPath": "Block_66"
                 },
                 {
                     "blockType": 77,
-                    "prefabPath": "Prefabs/Blocks/Block_77"
+                    "prefabPath": "Block_77"
                 },
                 {
                     "blockType": 88,
-                    "prefabPath": "Prefabs/Blocks/Block_88"
+                    "prefabPath": "Block_88"
                 },
                 {
                     "blockType": 99,
-                    "prefabPath": "Prefabs/Blocks/Block_99"
+                    "prefabPath": "Block_99"
                 },
                 {
                     "blockType": 12,
-                    "prefabPath": "Prefabs/Blocks/Block_12"
+                    "prefabPath": "Block_12"
                 },
                 {
                     "blockType": 23,
-                    "prefabPath": "Prefabs/Blocks/Block_23"
+                    "prefabPath": "Block_23"
                 },
                 {
                     "blockType": 34,
-                    "prefabPath": "Prefabs/Blocks/Block_34"
+                    "prefabPath": "Block_34"
                 },
                 {
                     "blockType": 45,
-                    "prefabPath": "Prefabs/Blocks/Block_45"
+                    "prefabPath": "Block_45"
                 },
                 {
                     "blockType": 56,
-                    "prefabPath": "Prefabs/Blocks/Block_56"
+                    "prefabPath": "Block_56"
                 },
                 {
                     "blockType": 67,
-                    "prefabPath": "Prefabs/Blocks/Block_67"
+                    "prefabPath": "Block_67"
                 },
                 {
                     "blockType": 78,
-                    "prefabPath": "Prefabs/Blocks/Block_78"
+                    "prefabPath": "Block_78"
                 },
                 {
                     "blockType": 89,
-                    "prefabPath": "Prefabs/Blocks/Block_89"
+                    "prefabPath": "Block_89"
                 }
             ]
         }

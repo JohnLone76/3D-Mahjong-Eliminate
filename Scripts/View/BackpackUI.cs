@@ -59,7 +59,7 @@ namespace MahjongProject
         private void InitializeModelPool()
         {
             // 加载UI显示用的轻量级预制体
-            GameObject displayPrefab = ResourceLoader.LoadPrefab(Constants.ResourcePaths.Prefabs.UI_PATH + "BlockDisplayModel_1");
+            GameObject displayPrefab = ResourceLoader.LoadUIPrefab("BlockDisplayModel_1");
             if (displayPrefab == null)
             {
                 Debug.LogError("Failed to load BlockDisplayModel prefab");

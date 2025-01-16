@@ -193,7 +193,7 @@ namespace MahjongProject
             {
                 return path;
             }
-            return $"Prefabs/Blocks/Block_{blockType}"; // 默认路径
+            return $"Block_{blockType}"; // 默认路径
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 
 namespace MahjongProject
 {
@@ -37,20 +38,30 @@ namespace MahjongProject
             {
                 if (m_instance == null)
                 {
-                    m_instance = new BlockManager();
+                    GameObject go = new GameObject("BlockManager");
+                    m_instance = go.AddComponent<BlockManager>();
+                    DontDestroyOnLoad(go);
                 }
                 return m_instance;
             }
         }
 
-        // 场景大小配置
-        private const float SCENE_WIDTH = 10f;            // 场景宽度
-        private const float SCENE_LENGTH = 20f;           // 场景长度
-        private const float SPAWN_HEIGHT = 10f;           // 生成高度
-        private const float POSITION_RANDOM_RANGE = 0.1f; // 生成位置的随机偏移范围
+        // 生成配置
+        private const float TOTAL_SPAWN_TIME = 3f;        // 总生成时间
+        private const float SPAWN_INTERVAL = 0.1f;        // 生成间隔
+        private const float LAUNCH_FORCE = 1f;         // 发射力度
+        private const float ROTATION_ANGLE = 360f;        // 旋转角度
 
         // 当前场景中的所有方块
         private List<BlockView> m_activeBlocks = new List<BlockView>();
+        
+        // 生成控制
+        private float m_spawnTimer;                       // 生成计时器
+        private int m_spawnIndex;                         // 当前生成索引
+        private List<int> m_blockTypesToSpawn;           // 待生成的方块类型
+        private LevelConfig m_currentLevelConfig;         // 当前关卡配置
+        private bool m_isGenerating;                      // 是否正在生成
+        private int m_blocksPerSpawn;                    // 每次生成的方块数量
 
         /// <summary>
         /// 私有构造函数，确保单例模式
@@ -82,11 +93,87 @@ namespace MahjongProject
         /// </remarks>
         public void GenerateBlocks(LevelConfig levelConfig)
         {
+            // 清理现有方块
             ClearAllBlocks();
-            List<int> blockTypes = GenerateBlockList(levelConfig);
-            foreach (int blockType in blockTypes)
+
+            // 初始化生成参数
+            m_currentLevelConfig = levelConfig;
+            m_blockTypesToSpawn = GenerateBlockList(levelConfig);
+            m_spawnTimer = 0;
+            m_spawnIndex = 0;
+            m_isGenerating = true;
+
+            // 计算每次生成的方块数量
+            int totalSpawnTimes = Mathf.FloorToInt(TOTAL_SPAWN_TIME / SPAWN_INTERVAL);
+            m_blocksPerSpawn = Mathf.CeilToInt((float)m_blockTypesToSpawn.Count / totalSpawnTimes);
+
+            // 获取PointManager并开始旋转
+            GameObject pointManager = GameObject.Find("PointManager");
+            if (pointManager != null)
             {
-                SpawnBlock(blockType, levelConfig);
+                pointManager.transform.DORotate(new Vector3(0, ROTATION_ANGLE, 0), TOTAL_SPAWN_TIME, RotateMode.FastBeyond360)
+                    .SetEase(Ease.Linear);
+            }
+        }
+
+        /// <summary>
+        /// 更新方块生成
+        /// </summary>
+        public void Update()
+        {
+            if (!m_isGenerating) return;
+
+            m_spawnTimer += Time.deltaTime;
+            if (m_spawnTimer >= SPAWN_INTERVAL)
+            {
+                m_spawnTimer = 0;
+                SpawnBlockBatch();
+            }
+
+            // 检查是否生成完成
+            if (m_spawnIndex >= m_blockTypesToSpawn.Count)
+            {
+                m_isGenerating = false;
+                m_blockTypesToSpawn = null;
+                m_currentLevelConfig = null;
+            }
+        }
+
+        /// <summary>
+        /// 生成一批方块
+        /// </summary>
+        private void SpawnBlockBatch()
+        {
+            // 获取PointManager
+            GameObject pointManager = GameObject.Find("PointManager");
+            if (pointManager == null)
+            {
+                Debug.LogError("找不到PointManager对象");
+                return;
+            }
+
+            // 生成这一批的方块
+            for (int i = 0; i < m_blocksPerSpawn && m_spawnIndex < m_blockTypesToSpawn.Count; i++)
+            {
+                // 获取生成位置和方向
+                Vector3 spawnPosition = pointManager.transform.position;
+                Vector3 spawnDirection = pointManager.transform.forward;
+
+                // 从对象池获取方块
+                BlockView block = BlockPool.Instance.GetBlock(spawnPosition, m_blockTypesToSpawn[m_spawnIndex], m_currentLevelConfig);
+                if (block != null)
+                {
+                    // 设置初始速度
+                    Rigidbody rb = block.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.velocity = spawnDirection * LAUNCH_FORCE;
+                    }
+
+                    m_activeBlocks.Add(block);
+                }
+
+                m_spawnIndex++;
             }
         }
 
@@ -205,50 +292,6 @@ namespace MahjongProject
                 }
             }
             return true;
-        }
-
-        /// <summary>
-        /// 生成单个方块
-        /// </summary>
-        /// <param name="blockType">方块类型</param>
-        /// <param name="levelConfig">关卡配置</param>
-        /// <remarks>
-        /// 生成流程：
-        /// 1. 计算随机生成位置
-        /// 2. 从对象池获取方块
-        /// 3. 初始化方块属性
-        /// 4. 添加到活动方块列表
-        /// 
-        /// 位置计算：
-        /// - 在场景范围内随机
-        /// - 添加随机偏移增加自然感
-        /// - 考虑物理碰撞的影响
-        /// 
-        /// 注意事项：
-        /// - 确保生成位置在场景范围内
-        /// - 避免方块重叠
-        /// - 考虑性能影响
-        /// </remarks>
-        private void SpawnBlock(int blockType, LevelConfig levelConfig)
-        {
-            // 计算随机生成位置
-            float x = Random.Range(0, SCENE_WIDTH);
-            float z = Random.Range(0, SCENE_LENGTH);
-            Vector3 position = new Vector3(x, SPAWN_HEIGHT, z);
-
-            // 添加随机偏移
-            position += new Vector3(
-                Random.Range(-POSITION_RANDOM_RANGE, POSITION_RANDOM_RANGE),
-                0,
-                Random.Range(-POSITION_RANDOM_RANGE, POSITION_RANDOM_RANGE)
-            );
-
-            // 从对象池获取方块
-            BlockView block = BlockPool.Instance.GetBlock(position, blockType, levelConfig);
-            if (block != null)
-            {
-                m_activeBlocks.Add(block);
-            }
         }
 
         /// <summary>

@@ -213,7 +213,7 @@ namespace MahjongProject.Editor
                             if (assetPath.StartsWith("Assets/Resources/"))
                             {
                                 // 只保留Resources文件夹之后的路径，并移除.prefab后缀
-                                string resourcePath = assetPath.Substring("Assets/Resources/".Length);
+                                string resourcePath = assetPath.Substring("Assets/Resources/Prefabs/Blocks/".Length);
                                 resourcePath = Path.ChangeExtension(resourcePath, null);
                                 level.SetBlockPrefabPath(blockTypes[i], resourcePath);
                             }

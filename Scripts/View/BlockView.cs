@@ -12,7 +12,6 @@ namespace MahjongProject
         // 组件引用
         private Rigidbody m_rigidbody;
         private BoxCollider m_collider;
-        private MeshRenderer m_renderer;
 
         // 方块数据
         private int m_blockType;
@@ -35,7 +34,6 @@ namespace MahjongProject
             // 获取组件引用
             m_rigidbody = GetComponent<Rigidbody>();
             m_collider = GetComponent<BoxCollider>();
-            m_renderer = GetComponent<MeshRenderer>();
 
             // 初始化物理参数
             InitializePhysics();
@@ -61,60 +59,9 @@ namespace MahjongProject
         /// <summary>
         /// 设置方块类型
         /// </summary>
-        /// <param name="blockType">方块类型</param>
-        /// <param name="prefabPath">预制体路径</param>
         public void SetBlockType(int blockType, string prefabPath = null)
         {
             m_blockType = blockType;
-            UpdateVisual(prefabPath);
-        }
-
-        /// <summary>
-        /// 更新方块视觉效果
-        /// </summary>
-        /// <param name="prefabPath">预制体路径</param>
-        private void UpdateVisual(string prefabPath = null)
-        {
-            // 加载预制体
-            GameObject prefab = null;
-            if (!string.IsNullOrEmpty(prefabPath))
-            {
-                prefab = Resources.Load<GameObject>(prefabPath);
-            }
-
-            if (prefab != null)
-            {
-                // 获取预制体的网格和材质
-                var meshFilter = prefab.GetComponent<MeshFilter>();
-                var renderer = prefab.GetComponent<MeshRenderer>();
-
-                if (meshFilter != null)
-                {
-                    var myMeshFilter = GetComponent<MeshFilter>();
-                    if (myMeshFilter != null)
-                    {
-                        myMeshFilter.mesh = meshFilter.sharedMesh;
-                    }
-                }
-
-                if (renderer != null && m_renderer != null)
-                {
-                    m_renderer.material = renderer.sharedMaterial;
-                }
-            }
-            else
-            {
-                // 如果找不到预制体，使用默认材质
-                Material material = Resources.Load<Material>($"Materials/Block_{m_blockType}");
-                if (material != null)
-                {
-                    m_renderer.material = material;
-                }
-                else
-                {
-                    Debug.LogWarning($"找不到方块材质：Block_{m_blockType}");
-                }
-            }
         }
 
         /// <summary>
