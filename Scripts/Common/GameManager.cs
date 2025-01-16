@@ -22,6 +22,13 @@ namespace MahjongProject
             }
         }
 
+        // 初始化状态
+        private bool m_isInitialized;
+        public bool IsInitialized => m_isInitialized;
+
+        // 事件
+        public event System.Action OnGameInitialized;
+
         private void Awake()
         {
             if (m_instance != null && m_instance != this)
@@ -40,17 +47,31 @@ namespace MahjongProject
         /// </summary>
         private void InitGame()
         {
-            // 确保EventCenter已经初始化
-            EventCenter.Instance.ToString();
+            if (m_isInitialized) return;
 
-            // 确保ConfigManager已经初始化
-            ConfigManager.Instance.ToString();
+            try
+            {
+                // 确保EventCenter已经初始化
+                EventCenter.Instance.ToString();
 
-            // 初始化各个系统
-            InitSystems();
+                // 确保ConfigManager已经初始化
+                ConfigManager.Instance.ToString();
 
-            // 应用配置
-            ApplyConfig();
+                // 初始化各个系统
+                InitSystems();
+
+                // 应用配置
+                ApplyConfig();
+
+                // 标记初始化完成
+                m_isInitialized = true;
+                OnGameInitialized?.Invoke();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"游戏初始化失败: {e.Message}");
+                m_isInitialized = false;
+            }
         }
 
         /// <summary>
@@ -130,8 +151,10 @@ namespace MahjongProject
 
         private void OnDestroy()
         {
-            // 清理事件
-            EventCenter.Instance.ClearAllEvents();
+            if (m_instance == this)
+            {
+                m_instance = null;
+            }
         }
     }
 } 

@@ -24,7 +24,6 @@ namespace MahjongProject
         }
 
         private GameConfig m_gameConfig;                           // 游戏配置
-        private Dictionary<int, BlockConfig> m_blockConfigs;       // 方块配置
         private Dictionary<int, LevelConfig> m_levelConfigs;       // 关卡配置
 
         private void Awake()
@@ -48,9 +47,6 @@ namespace MahjongProject
             // 加载游戏配置
             m_gameConfig = GameConfig.Load();
 
-            // 加载方块配置
-            LoadBlockConfigs();
-
             // 加载关卡配置
             LoadLevelConfigs();
 
@@ -63,27 +59,6 @@ namespace MahjongProject
         }
 
         /// <summary>
-        /// 加载方块配置
-        /// </summary>
-        private void LoadBlockConfigs()
-        {
-            m_blockConfigs = new Dictionary<int, BlockConfig>();
-            TextAsset configAsset = Resources.Load<TextAsset>(Constants.ResourcePaths.Configs.BLOCK_CONFIG);
-            if (configAsset != null)
-            {
-                BlockConfig[] configs = JsonUtility.FromJson<BlockConfig[]>(configAsset.text);
-                foreach (var config in configs)
-                {
-                    m_blockConfigs[config.BlockType] = config;
-                }
-            }
-            else
-            {
-                Debug.LogError("找不到方块配置文件");
-            }
-        }
-
-        /// <summary>
         /// 加载关卡配置
         /// </summary>
         private void LoadLevelConfigs()
@@ -92,10 +67,17 @@ namespace MahjongProject
             TextAsset configAsset = Resources.Load<TextAsset>(Constants.ResourcePaths.Configs.LEVEL_CONFIG);
             if (configAsset != null)
             {
-                LevelConfig[] configs = JsonUtility.FromJson<LevelConfig[]>(configAsset.text);
-                foreach (var config in configs)
+                var wrapper = JsonUtility.FromJson<LevelConfigWrapper>(configAsset.text);
+                if (wrapper != null && wrapper.levels != null)
                 {
-                    m_levelConfigs[config.LevelId] = config;
+                    foreach (var config in wrapper.levels)
+                    {
+                        m_levelConfigs[config.LevelId] = config;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("关卡配置文件格式错误");
                 }
             }
             else
@@ -121,18 +103,6 @@ namespace MahjongProject
         public GameConfig GameConfig => m_gameConfig;
 
         /// <summary>
-        /// 获取方块配置
-        /// </summary>
-        public BlockConfig GetBlockConfig(int blockType)
-        {
-            if (m_blockConfigs.TryGetValue(blockType, out BlockConfig config))
-            {
-                return config;
-            }
-            return null;
-        }
-
-        /// <summary>
         /// 获取关卡配置
         /// </summary>
         public LevelConfig GetLevelConfig(int levelId)
@@ -151,7 +121,6 @@ namespace MahjongProject
         {
             m_gameConfig.Reset();
             m_gameConfig.Save();
-            LoadBlockConfigs();
             LoadLevelConfigs();
         }
 
@@ -161,6 +130,12 @@ namespace MahjongProject
             {
                 m_gameConfig.Save();
             }
+        }
+
+        [System.Serializable]
+        private class LevelConfigWrapper
+        {
+            public LevelConfig[] levels;
         }
     }
 } 

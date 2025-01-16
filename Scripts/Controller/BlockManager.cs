@@ -86,7 +86,7 @@ namespace MahjongProject
             List<int> blockTypes = GenerateBlockList(levelConfig);
             foreach (int blockType in blockTypes)
             {
-                SpawnBlock(blockType);
+                SpawnBlock(blockType, levelConfig);
             }
         }
 
@@ -211,6 +211,7 @@ namespace MahjongProject
         /// 生成单个方块
         /// </summary>
         /// <param name="blockType">方块类型</param>
+        /// <param name="levelConfig">关卡配置</param>
         /// <remarks>
         /// 生成流程：
         /// 1. 计算随机生成位置
@@ -228,7 +229,7 @@ namespace MahjongProject
         /// - 避免方块重叠
         /// - 考虑性能影响
         /// </remarks>
-        private void SpawnBlock(int blockType)
+        private void SpawnBlock(int blockType, LevelConfig levelConfig)
         {
             // 计算随机生成位置
             float x = Random.Range(0, SCENE_WIDTH);
@@ -243,10 +244,9 @@ namespace MahjongProject
             );
 
             // 从对象池获取方块
-            BlockView block = BlockPool.Instance.GetBlock(position);
+            BlockView block = BlockPool.Instance.GetBlock(position, blockType, levelConfig);
             if (block != null)
             {
-                block.SetBlockType(blockType);
                 m_activeBlocks.Add(block);
             }
         }

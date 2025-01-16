@@ -16,7 +16,12 @@ namespace MahjongProject
                 if (m_instance == null)
                 {
                     // 从Resources加载预制体
-                    GameObject prefab = Resources.Load<GameObject>(Constants.ResourcePaths.Prefabs.EFFECT_PATH + "Effect");
+                    GameObject prefab = Resources.Load<GameObject>(Constants.ResourcePaths.Prefabs.EFFECT_PATH + "ClickEffect");
+                    if (prefab == null)
+                    {
+                        Debug.LogError("找不到特效预制体：ClickEffect");
+                        return null;
+                    }
                     m_instance = new EffectPool(prefab);
                 }
                 return m_instance;

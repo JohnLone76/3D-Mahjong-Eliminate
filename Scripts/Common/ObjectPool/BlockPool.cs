@@ -8,15 +8,22 @@ namespace MahjongProject
     public class BlockPool : BaseObjectPool<BlockView>
     {
         private static BlockPool m_instance;
+        private static GameObject m_prefab;
+
         public static BlockPool Instance
         {
             get
             {
                 if (m_instance == null)
                 {
-                    // 从Resources加载预制体
-                    GameObject prefab = Resources.Load<GameObject>(Constants.ResourcePaths.Prefabs.BLOCK_PATH + "Block");
-                    m_instance = new BlockPool(prefab);
+                    // 使用Block_1作为默认预制体
+                    m_prefab = Resources.Load<GameObject>(Constants.ResourcePaths.Prefabs.BLOCK_PATH + "Block_1");
+                    if (m_prefab == null)
+                    {
+                        Debug.LogError("找不到默认方块预制体：Block_1");
+                        return null;
+                    }
+                    m_instance = new BlockPool(m_prefab);
                 }
                 return m_instance;
             }
@@ -44,14 +51,20 @@ namespace MahjongProject
         }
 
         /// <summary>
-        /// 获取方块并设置位置
+        /// 获取方块并设置位置和类型
         /// </summary>
-        public BlockView GetBlock(Vector3 position)
+        public BlockView GetBlock(Vector3 position, int blockType, LevelConfig levelConfig)
         {
+            // 从对象池获取方块
             BlockView block = Get();
             if (block != null)
             {
+                // 根据 blockType 和 levelConfig 获取预制体路径
+                string prefabPath = levelConfig.GetBlockPrefabPath(blockType);
+                
+                // 设置位置和类型
                 block.transform.position = position;
+                block.SetBlockType(blockType, prefabPath);
             }
             return block;
         }

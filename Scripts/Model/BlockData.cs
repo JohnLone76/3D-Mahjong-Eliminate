@@ -249,11 +249,6 @@ namespace MahjongProject
         public string Description;             // 描述
 
         /// <summary>
-        /// 方块颜色：用于材质设置
-        /// </summary>
-        public Color BlockColor;               // 方块颜色
-
-        /// <summary>
         /// 碰撞体尺寸：用于物理碰撞
         /// </summary>
         public Vector3 ColliderSize;           // 碰撞体尺寸
@@ -278,7 +273,6 @@ namespace MahjongProject
             PrefabPath = string.Empty;
             BlockName = "Default Block";
             Description = "Default Description";
-            BlockColor = Color.white;
             ColliderSize = Vector3.one;
             Mass = 1.0f;
         }

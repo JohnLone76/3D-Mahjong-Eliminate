@@ -64,6 +64,7 @@ namespace MahjongProject
             public const string GAME_OVER = "GameOver";
             public const string LEVEL_STARTED = "LevelStarted";    // 关卡开始事件
             public const string LEVEL_COMPLETE = "LevelComplete";
+            public const string LEVEL_CHANGED = "LEVEL_CHANGED";  // 添加关卡改变事件
 
             // 方块相关
             public const string BLOCK_CLICKED = "BlockClicked";
@@ -145,6 +146,8 @@ namespace MahjongProject
             public const int MAX_BLOCK_POOL_SIZE = 250;     // 200+50
             public const int INITIAL_EFFECT_POOL_SIZE = 10;
             public const int MAX_EFFECT_POOL_SIZE = 30;
+            public const int INITIAL_AUDIO_POOL_SIZE = 10;  // 音频对象池初始大小
+            public const int MAX_AUDIO_POOL_SIZE = 20;      // 音频对象池最大大小
             public const float POOL_EXPAND_RATE = 1.5f;
             public const int POOL_EXPAND_MIN = 10;
         }
