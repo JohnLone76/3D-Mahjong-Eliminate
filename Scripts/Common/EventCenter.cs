@@ -27,6 +27,27 @@ namespace MahjongProject
         // 事件字典
         private Dictionary<string, Action<object>> m_eventDictionary = new Dictionary<string, Action<object>>();
 
+        private void Awake()
+        {
+            if (m_instance != null && m_instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            m_instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            if (m_instance == this)
+            {
+                ClearAllEvents();
+                m_instance = null;
+            }
+        }
+
         /// <summary>
         /// 添加事件监听
         /// </summary>

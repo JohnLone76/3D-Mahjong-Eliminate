@@ -44,6 +44,22 @@ namespace MahjongProject
             DontDestroyOnLoad(gameObject);
         }
 
+        private void OnDestroy()
+        {
+            if (m_instance == this)
+            {
+                // 清理事件
+                OnTimeUpdate = null;
+                OnTimeUp = null;
+                // 重置状态
+                m_isRunning = false;
+                m_remainingTime = 0;
+                m_hasExtendedTime = false;
+                // 清理实例
+                m_instance = null;
+            }
+        }
+
         private void Update()
         {
             if (m_isRunning && m_remainingTime > 0)

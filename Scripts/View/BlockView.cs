@@ -31,6 +31,8 @@ namespace MahjongProject
 
         private void Awake()
         {
+            base.Awake();  // 调用基类的Awake以初始化m_eventCenter
+            
             // 获取组件引用
             m_rigidbody = GetComponent<Rigidbody>();
             m_collider = GetComponent<BoxCollider>();

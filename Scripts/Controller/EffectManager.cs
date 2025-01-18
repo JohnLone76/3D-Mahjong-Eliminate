@@ -6,17 +6,6 @@ namespace MahjongProject
     /// <summary>
     /// 特效管理器：负责特效的加载、播放和回收
     /// </summary>
-    /// <remarks>
-    /// 核心功能：
-    /// 1. 管理特效对象池
-    /// 2. 加载和实例化特效
-    /// 3. 控制特效的生命周期
-    /// 
-    /// 设计考虑：
-    /// 1. 使用对象池优化性能
-    /// 2. 支持自动回收
-    /// 3. 预加载常用特效
-    /// </remarks>
     public class EffectManager : BaseController
     {
         private static EffectManager m_instance;
@@ -35,7 +24,7 @@ namespace MahjongProject
         }
 
         // 特效对象池
-        private Dictionary<string, BaseObjectPool<ParticleSystem>> m_effectPools;
+        private Dictionary<string, BaseObjectPool<EffectObject>> m_effectPools;
 
         // 特效预制体缓存
         private Dictionary<string, GameObject> m_effectPrefabs;
@@ -43,7 +32,7 @@ namespace MahjongProject
         protected override void OnInit()
         {
             base.OnInit();
-            m_effectPools = new Dictionary<string, BaseObjectPool<ParticleSystem>>();
+            m_effectPools = new Dictionary<string, BaseObjectPool<EffectObject>>();
             m_effectPrefabs = new Dictionary<string, GameObject>();
             PreloadEffects();
         }
@@ -51,12 +40,6 @@ namespace MahjongProject
         /// <summary>
         /// 预加载特效
         /// </summary>
-        /// <remarks>
-        /// 预加载流程：
-        /// 1. 加载常用特效预制体
-        /// 2. 初始化对象池
-        /// 3. 预热对象池
-        /// </remarks>
         private void PreloadEffects()
         {
             // 预加载点击特效
@@ -69,8 +52,6 @@ namespace MahjongProject
         /// <summary>
         /// 预加载特效
         /// </summary>
-        /// <param name="effectName">特效名称</param>
-        /// <param name="preloadCount">预加载数量</param>
         private void PreloadEffect(string effectName, int preloadCount)
         {
             // 加载预制体
@@ -79,6 +60,13 @@ namespace MahjongProject
             {
                 Debug.LogError($"Failed to load effect prefab: {effectName}");
                 return;
+            }
+
+            // 确保预制体有EffectObject组件
+            EffectObject effectObj = prefab.GetComponent<EffectObject>();
+            if (effectObj == null)
+            {
+                effectObj = prefab.AddComponent<EffectObject>();
             }
 
             // 缓存预制体
@@ -94,11 +82,7 @@ namespace MahjongProject
         /// <summary>
         /// 播放特效
         /// </summary>
-        /// <param name="effectName">特效名称</param>
-        /// <param name="position">播放位置</param>
-        /// <param name="autoRecycle">是否自动回收</param>
-        /// <returns>特效实例</returns>
-        public ParticleSystem PlayEffect(string effectName, Vector3 position, bool autoRecycle = true)
+        public EffectObject PlayEffect(string effectName, Vector3 position, bool autoRecycle = true)
         {
             // 获取对象池
             if (!m_effectPools.TryGetValue(effectName, out var pool))
@@ -117,8 +101,16 @@ namespace MahjongProject
             // 自动回收
             if (autoRecycle)
             {
-                float duration = effect.main.duration + effect.main.startLifetime.constantMax;
-                StartCoroutine(Utils.DelayAction(duration, () =>
+                // 获取最长的粒子系统持续时间
+                float maxDuration = 0f;
+                var particleSystems = effect.GetComponentsInChildren<ParticleSystem>();
+                foreach (var ps in particleSystems)
+                {
+                    float duration = ps.main.duration + ps.main.startLifetime.constantMax;
+                    maxDuration = Mathf.Max(maxDuration, duration);
+                }
+
+                StartCoroutine(Utils.DelayAction(maxDuration, () =>
                 {
                     if (effect != null)
                     {
@@ -133,9 +125,7 @@ namespace MahjongProject
         /// <summary>
         /// 回收特效
         /// </summary>
-        /// <param name="effectName">特效名称</param>
-        /// <param name="effect">特效实例</param>
-        public void RecycleEffect(string effectName, ParticleSystem effect)
+        public void RecycleEffect(string effectName, EffectObject effect)
         {
             if (effect == null) return;
 

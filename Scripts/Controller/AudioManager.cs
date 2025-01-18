@@ -60,10 +60,11 @@ namespace MahjongProject
         /// </summary>
         private void InitializeAudioPool()
         {
-            // 创建音频源对象池
+            // 创建音频源预制体
             var audioSourcePrefab = new GameObject("AudioSourcePrefab").AddComponent<AudioSource>();
             audioSourcePrefab.playOnAwake = false;
             audioSourcePrefab.gameObject.SetActive(false);
+            DontDestroyOnLoad(audioSourcePrefab.gameObject);  // 防止预制体被销毁
 
             m_audioSourcePool = new AudioSourcePool(
                 audioSourcePrefab.gameObject,
@@ -71,8 +72,8 @@ namespace MahjongProject
                 Constants.PoolConfig.MAX_AUDIO_POOL_SIZE
             );
 
-            // 销毁临时预制体
-            Destroy(audioSourcePrefab.gameObject);
+            // 隐藏预制体
+            audioSourcePrefab.gameObject.hideFlags = HideFlags.HideAndDontSave;
         }
 
         /// <summary>

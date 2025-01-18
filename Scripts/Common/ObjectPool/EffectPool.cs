@@ -6,7 +6,7 @@ namespace MahjongProject
     /// <summary>
     /// 特效对象池
     /// </summary>
-    public class EffectPool : BaseObjectPool<ParticleSystem>
+    public class EffectPool : BaseObjectPool<EffectObject>
     {
         private static EffectPool m_instance;
         public static EffectPool Instance
@@ -22,6 +22,14 @@ namespace MahjongProject
                         Debug.LogError("找不到特效预制体：ClickEffect");
                         return null;
                     }
+
+                    // 确保预制体上有 EffectObject 组件
+                    EffectObject effectObj = prefab.GetComponent<EffectObject>();
+                    if (effectObj == null)
+                    {
+                        effectObj = prefab.AddComponent<EffectObject>();
+                    }
+
                     m_instance = new EffectPool(prefab);
                 }
                 return m_instance;
@@ -34,14 +42,14 @@ namespace MahjongProject
         {
         }
 
-        protected override void OnGet(ParticleSystem effect)
+        protected override void OnGet(EffectObject effect)
         {
             base.OnGet(effect);
             effect.Clear();
             effect.Play();
         }
 
-        protected override void OnReturn(ParticleSystem effect)
+        protected override void OnReturn(EffectObject effect)
         {
             base.OnReturn(effect);
             effect.Stop();
@@ -51,9 +59,9 @@ namespace MahjongProject
         /// <summary>
         /// 播放特效
         /// </summary>
-        public ParticleSystem PlayEffect(Vector3 position, float duration = 1f)
+        public EffectObject PlayEffect(Vector3 position, float duration = 1f)
         {
-            ParticleSystem effect = Get();
+            EffectObject effect = Get();
             if (effect != null)
             {
                 effect.transform.position = position;
@@ -65,7 +73,7 @@ namespace MahjongProject
         /// <summary>
         /// 自动回收特效
         /// </summary>
-        private IEnumerator AutoRecycle(ParticleSystem effect, float duration)
+        private IEnumerator AutoRecycle(EffectObject effect, float duration)
         {
             yield return new WaitForSeconds(duration);
             if (effect != null)
